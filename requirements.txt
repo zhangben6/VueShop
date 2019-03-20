@@ -1,0 +1,5 @@
+djangorestframework
+django == 1.11
+markdown
+django-filter
+pillow
