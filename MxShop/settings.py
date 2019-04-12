@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'DjangoUeditor',
     'crispy_forms',
     'xadmin',
+    'rest_framework',
 
 
 ]
@@ -118,6 +119,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -141,3 +144,8 @@ STATIC_URL = '/static/'
 # 上传资源文件的配置
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES":[],
+}
