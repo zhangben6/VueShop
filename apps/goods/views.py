@@ -12,14 +12,14 @@ from .models import Goods
 
 
 # 写法1
-class GoodsListView(APIView):
-    """
-    List all goods, or create a new good.
-    """
-    def get(self, request, format=None):
-        goods = Goods.objects.all()[:10]
-        goods_serializer = GoodsSerializer(goods, many=True)
-        return Response(goods_serializer.data)
+# class GoodsListView(APIView):
+#     """
+#     List all goods, or create a new good.
+#     """
+#     def get(self, request, format=None):
+#         goods = Goods.objects.all()[:10]
+#         goods_serializer = GoodsSerializer(goods, many=True)
+#         return Response(goods_serializer.data)
 
 
 
@@ -35,23 +35,23 @@ class GoodsListView(APIView):
 #         return self.list(request, *args, **kwargs)
 #
 #
-# class GoodsPagination(PageNumberPagination):
-#     page_size = 10
-#     page_size_query_param = 'page_size'  # 前端可通过这个参数进行动态返回数据
-#     page_query_param = 'p'
-#     max_page_size = 100
+class GoodsPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'  # 前端可通过这个参数进行动态返回数据
+    page_query_param = 'p'
+    max_page_size = 100
 
 # 写法3  简直不要太爽  drf框架牛逼(实现了分页效果)
 # class GoodsListView(generics.ListAPIView):
-    # queryset = Goods.objects.all()
-    # serializer_class = GoodsSerializer
-    # 设置分页的配置
-    # pagination_class = GoodsPagination
-
-
-# 写法4  飘了飘了  高速飙车中。。。
-# class GoodsListViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
 #     queryset = Goods.objects.all()
 #     serializer_class = GoodsSerializer
 #     # 设置分页的配置
 #     pagination_class = GoodsPagination
+
+
+# 写法4  飘了飘了  高速飙车中。。。
+class GoodsListViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
+    queryset = Goods.objects.all()
+    serializer_class = GoodsSerializer
+    # 设置分页的配置
+    pagination_class = GoodsPagination
