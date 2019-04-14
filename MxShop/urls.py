@@ -18,7 +18,7 @@ from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 import xadmin
 from rest_framework.routers import DefaultRouter
-
+from rest_framework.authtoken import views
 
 from goods.views import GoodsListViewSet,CategoryViewSet
 from MxShop.settings import MEDIA_ROOT
@@ -56,5 +56,7 @@ urlpatterns = [
 
     # 使用router url的配置
     url(r'^', include(router.urls)),
+
+    url(r'^api-token-auth/', views.obtain_auth_token),
 
 ]
