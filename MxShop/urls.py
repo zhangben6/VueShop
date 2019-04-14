@@ -18,15 +18,21 @@ from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 import xadmin
 from rest_framework.routers import DefaultRouter
-from goods.views import GoodsListViewSet
 
-router = DefaultRouter()
-# 配置goods的url
-router.register(r'goods',GoodsListViewSet)
 
+from goods.views import GoodsListViewSet,CategoryViewSet
 from MxShop.settings import MEDIA_ROOT
 
-#
+router = DefaultRouter()
+
+
+# 配置goods的url
+router.register(r'goods',GoodsListViewSet,base_name='goods')
+
+# 配置category的url
+router.register(r'categorys',CategoryViewSet,base_name='categorys')
+
+
 # goods_list = GoodsListViewSet.as_view({
 #     'get':'list',
 #  })
@@ -48,6 +54,7 @@ urlpatterns = [
     # drf框架的文档功能
     url(r'docs/',include_docs_urls(title='Rapzhang线上超市')),# 地址一定不要加上$
 
-    # goods url的配置
+    # 使用router url的配置
     url(r'^', include(router.urls)),
+
 ]

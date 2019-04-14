@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from .serializers import GoodsSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import mixins
@@ -9,8 +8,10 @@ from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
-from .models import Goods
+from .models import Goods,GoodsCategory
 from .filters import GoodsFilter
+from .serializers import GoodsSerializer,CategorySerializer
+
 # Create your views here.
 
 
@@ -20,6 +21,7 @@ from .filters import GoodsFilter
 #     List all goods, or create a new good.
 #     """
 #     def get(self, request, format=None):
+
 #         goods = Goods.objects.all()[:10]
 #         goods_serializer = GoodsSerializer(goods, many=True)
 #         return Response(goods_serializer.data)
@@ -39,9 +41,9 @@ from .filters import GoodsFilter
 #
 #
 class GoodsPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 12
     page_size_query_param = 'page_size'  # 前端可通过这个参数进行动态返回数据
-    page_query_param = 'p'
+    page_query_param = 'page'
     max_page_size = 100
 
 # 写法3  简直不要太爽  drf框架牛逼(实现了分页效果)   官网一般用这种写法!但是urls.py中配置不一样
@@ -120,5 +122,21 @@ class GoodsListViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
     pagination_class = GoodsPagination
     filter_backends = (DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter)
     filter_class = GoodsFilter
-    search_fields = ('^name','=goods_brief')
-    ordering_fields = ('sold_num', 'add_time')
+    search_fields = ('name','goods_brief','goods_desc')
+    ordering_fields = ('sold_num', 'shop_price')
+
+# 项目实战环节 =========================================================================
+class CategoryViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+    '''
+    list:
+        商品分类列表数据
+    '''
+    queryset = GoodsCategory.objects.filter(category_type=1)
+    serializer_class = CategorySerializer
+
+
+
+
+
+
+
