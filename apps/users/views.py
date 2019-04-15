@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
-
+from rest_framework.mixins import CreateModelMixin
+from rest_framework import viewsets
 # Create your views here.
 
 # get_user_model方法会去setting中找AUTH_USER_MODEL
@@ -21,3 +22,10 @@ class CustomBackend(ModelBackend):
                 return user
         except Exception as e:
             return None
+
+
+class SmsCodeViewSet(CreateModelMixin, viewsets.GenericViewSet):
+    '''
+    发送短信验证码
+    '''
+    
