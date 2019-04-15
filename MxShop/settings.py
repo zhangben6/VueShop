@@ -140,6 +140,10 @@ USE_L10N = True
 
 USE_TZ = False   # 不采用UTC时间
 
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -156,7 +160,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',  # 提示出错，没有调用process_request方法
         # 'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # JWT的auth认证，将用户post过来的token做验证，取出user，不用查询数据库
     )
+}
+
+
+# 设置JWT的过期时间
+import datetime
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA':datetime.timedelta(seconds=20), # 或者7天:days=7
+    'JWT_AUTH_HEADER_PREFIX':'JWT'
 }
