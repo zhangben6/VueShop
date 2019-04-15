@@ -7,6 +7,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from rest_framework.authentication import TokenAuthentication
 
 from .models import Goods,GoodsCategory
 from .filters import GoodsFilter
@@ -120,6 +121,7 @@ class GoodsListViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
     serializer_class = GoodsSerializer
     # 设置分页的配置
     pagination_class = GoodsPagination
+    # authentication_classes = (TokenAuthentication,)  # 商品是公开列表页，不能配置token的验证
     filter_backends = (DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter)
     filter_class = GoodsFilter
     search_fields = ('name','goods_brief','goods_desc')
