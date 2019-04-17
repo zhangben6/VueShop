@@ -176,3 +176,6 @@ JWT_AUTH = {
 
 #手机号验证
 REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
+
+# 云片网keyid
+APIKEY = '78745e43a93b9f9ccebd5e072dc542a7'
