@@ -8,7 +8,7 @@ __data__ = '2019/4/12 17:43'
 from rest_framework import serializers
 
 from goods.models import Goods,GoodsCategory
-
+from .models import GoodsImage
 
 # 类似于Django中Form的写法
 # class GoodsSerializer(serializers.Serializer):
@@ -50,14 +50,22 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class GoodsImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsImage
+        fields = ('image',)
+
 
 # 类似于Django中ModelForm的写法
 class GoodsSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
+    images = GoodsImageSerializer(many=True)
     class Meta:
         model = Goods
         # fields = ('name','click_num','market_price','add_time')
         fields = "__all__"
+
+
 
 
 

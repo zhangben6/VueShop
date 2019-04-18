@@ -112,7 +112,7 @@ class GoodsPagination(PageNumberPagination):
 #     search_fields = ('^name','=goods_brief')  # 也可以嵌套加入正则表达式的语法
 
 # drf 的排序 ----------------------------------------------------------------------------------------------------
-class GoodsListViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
+class GoodsListViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     '''
     1.使用drf框架7行完成：商品列表页展示，分页，过滤，搜索，排序（前端呈现web可视化API界面）
     2.后端人员不需要写太多文档表明接口对应的参数，直接通过页面中的过滤器测试得到API地址
