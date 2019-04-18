@@ -7,6 +7,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from random import choice
+from rest_framework_jwt.serializers import jwt_encode_handler,jwt_payload_handler
 
 from .serializers import SmsSerializer,UserRegSerializer
 from utils.yunpian import YunPian
@@ -73,6 +74,7 @@ class SmsCodeViewSet(CreateModelMixin, viewsets.GenericViewSet):
                 'mobile':mobile
             },status=status.HTTP_201_CREATED)
 
+
 class UserViewset(CreateModelMixin,viewsets.GenericViewSet):
     '''
     用户
@@ -87,12 +89,15 @@ class UserViewset(CreateModelMixin,viewsets.GenericViewSet):
         user = self.perform_create(serializer)
 
         # 生成JWT形式的Token
-
+        re_dict = serializer.data
+        payload = jwt_payload_handler(user)
+        re_dict['token'] = jwt_encode_handler(payload)
+        re_dict['name'] = user.name if user.name else user.username
 
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
 
-
+    # 返回user对象
     def perform_create(self, serializer):
         return serializer.save()
 
