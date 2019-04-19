@@ -47,6 +47,7 @@ class UserRegSerializer(serializers.ModelSerializer):
                                  write_only=True,
                                  max_length=4,
                                  min_length=4,
+                                 help_text='验证码',
                                  error_messages={
                                      'required': '请输入验证码',
                                      'blank': '请输入验证码',
@@ -107,3 +108,12 @@ class UserRegSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'code', 'mobile','password')
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    '''
+    用户详情序列化类
+    '''
+    class Meta:
+        model = User
+        fields = ('birthday','mobile','gender','email','name')

@@ -3,13 +3,17 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 from rest_framework.mixins import CreateModelMixin
+from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from random import choice
 from rest_framework_jwt.serializers import jwt_encode_handler,jwt_payload_handler
+from rest_framework import permissions
+from rest_framework import authentication
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-from .serializers import SmsSerializer,UserRegSerializer
+from .serializers import SmsSerializer,UserRegSerializer,UserDetailSerializer
 from utils.yunpian import YunPian
 from MxShop.settings import APIKEY
 from .models import VerifyCode
@@ -75,14 +79,35 @@ class SmsCodeViewSet(CreateModelMixin, viewsets.GenericViewSet):
             },status=status.HTTP_201_CREATED)
 
 
-class UserViewSet(CreateModelMixin,viewsets.GenericViewSet):
+class UserViewSet(CreateModelMixin,mixins.UpdateModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     '''
     用户
     '''
     serializer_class = UserRegSerializer
     queryset = User.objects.all()
+    authentication_classes = (authentication.SessionAuthentication,JSONWebTokenAuthentication)
 
-    # 返回给用户tokenz值，实现自动登陆
+    # 重载get_serializer_class,根据具体需求重载具体的serializer
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return UserDetailSerializer
+        elif self.action == 'create':
+            return UserRegSerializer
+        return UserDetailSerializer  # 默认返回
+
+    # 这个viewSet中所有的操作都需要用户登陆才行
+    # permission_classes = (permissions.IsAuthenticated,)
+    def get_permissions(self):
+        if self.action == 'retrieve':
+            return [permissions.IsAuthenticated()]
+        elif self.action == 'create':
+            return []
+        # 其他的情况下，返回默认值[]
+        return []
+
+
+
+    # 返回给用户token值，实现自动登陆
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -96,6 +121,10 @@ class UserViewSet(CreateModelMixin,viewsets.GenericViewSet):
 
         headers = self.get_success_headers(serializer.data)
         return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
+
+    # 当用户在前端随意输入params进入个人中心时，返回的都是当前用户的信息
+    def get_object(self):
+        return self.request.user
 
     # 返回user对象
     def perform_create(self, serializer):

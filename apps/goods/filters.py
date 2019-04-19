@@ -9,7 +9,7 @@ from django.db.models import Q
 from .models import Goods
 
 class GoodsFilter(filters.FilterSet):
-    pricemin = filters.NumberFilter(field_name="shop_price", lookup_expr='gte')
+    pricemin = filters.NumberFilter(field_name="shop_price", help_text='最低价格',lookup_expr='gte')
     pricemax = filters.NumberFilter(field_name="shop_price", lookup_expr='lte')
     # name = filters.CharFilter(field_name='name',lookup_expr='icontains')
     top_category = filters.NumberFilter(field_name='查询某一类别商品',method='top_category_filter')
