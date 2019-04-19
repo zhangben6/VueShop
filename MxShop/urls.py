@@ -22,8 +22,9 @@ from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
 
 from goods.views import GoodsListViewSet,CategoryViewSet
-from users.views import SmsCodeViewSet,UserViewset
+from users.views import SmsCodeViewSet,UserViewSet
 from MxShop.settings import MEDIA_ROOT
+from user_operation.views import UserFavViewset
 
 router = DefaultRouter()
 
@@ -37,8 +38,10 @@ router.register(r'categorys',CategoryViewSet,base_name='categorys')
 router.register(r'codes',SmsCodeViewSet,base_name='codes')
 
 # 用户注册页面
-router.register(r'users',UserViewset,base_name='users')
+router.register(r'users',UserViewSet,base_name='users')
 
+# 用户收藏api
+router.register(r'userfavs',UserFavViewset,base_name='userfavs')
 
 # goods_list = GoodsListViewSet.as_view({
 #     'get':'list',

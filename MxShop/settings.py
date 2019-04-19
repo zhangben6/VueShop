@@ -160,9 +160,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',  # 提示出错，没有调用process_request方法
+        'rest_framework.authentication.SessionAuthentication',  # 提示出错，没有调用process_request方法
         # 'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # JWT的auth认证，将用户post过来的token做验证，取出user，不用查询数据库
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # JWT的auth认证，将用户post过来的token做验证，取出user，不用查询数据库
     )
 }
 
@@ -170,7 +170,7 @@ REST_FRAMEWORK = {
 # 设置JWT的过期时间
 import datetime
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA':datetime.timedelta(seconds=20), # 或者7天:days=7
+    'JWT_EXPIRATION_DELTA':datetime.timedelta(seconds=3000), # 或者7天:days=7
     'JWT_AUTH_HEADER_PREFIX':'JWT'
 }
 
@@ -179,3 +179,12 @@ REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
 
 # 云片网keyid
 APIKEY = '78745e43a93b9f9ccebd5e072dc542a7'
+
+CORS_ALLOW_METHODS =( 'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
+        )
+
