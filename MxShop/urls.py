@@ -25,7 +25,7 @@ from goods.views import GoodsListViewSet,CategoryViewSet
 from users.views import SmsCodeViewSet,UserViewSet
 from MxShop.settings import MEDIA_ROOT
 from user_operation.views import UserFavViewset,LeavingMessageViewset,AddressViewSet
-from trade.views import shoppingCartViewset
+from trade.views import shoppingCartViewset,OrderViewSet
 
 router = DefaultRouter()
 
@@ -52,6 +52,9 @@ router.register(r'address',AddressViewSet,base_name='address')
 
 # 购物车相关API
 router.register(r'shopcarts',shoppingCartViewset,base_name='shopcarts')
+
+# 创建订单的接口
+router.register(r'orders',OrderViewSet,base_name='orders')
 
 
 # goods_list = GoodsListViewSet.as_view({

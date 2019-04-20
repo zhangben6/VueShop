@@ -18,8 +18,6 @@ class ShopCartDetailSerializer(serializers.ModelSerializer):
         fields = ('goods','nums')
 
 
-
-
 class ShopCartSerializer(serializers.Serializer):
     #获取当前登录的用户
     user = serializers.HiddenField(
@@ -61,3 +59,53 @@ class ShopCartSerializer(serializers.Serializer):
         instance.nums = validated_data["nums"]
         instance.save()
         return instance
+
+
+class OrderGoodsSerializer(serializers.ModelSerializer):
+    goods = GoodsSerializer(many=False)
+    class Meta:
+        model = OrderGoods
+        fields = "__all__"
+
+
+class OrderDetailSerializer(serializers.ModelSerializer):
+    goods = OrderGoodsSerializer(many=True)
+    class Meta:
+        model = OrderInfo
+        fields = '__all__'
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
+    # 生成订单的时候这些不用post，不能在前端进行修改
+    pay_status = serializers.CharField(read_only=True)
+    trade_no = serializers.CharField(read_only=True)
+    order_sn = serializers.CharField(read_only=True)
+    pay_time = serializers.DateTimeField(read_only=True)
+    nonce_str = serializers.CharField(read_only=True)
+    pay_type = serializers.CharField(read_only=True)
+    add_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M')
+
+    # 因为前端序列化的serializer没有订单号，需要在实例化对象save之前插入一段订单号
+    def generate_order_sn(self):
+        # 生成一个随机数
+        from random import Random
+        random_ins = Random()
+
+        # 当前时间+user.id+随机数
+        order_sn = '{time_str}{user_id}{ranstr}'.format(time_str=time.strftime("%Y%m%d%H%M%S"),
+                                                        user_id=self.context['request'].user.id, ranstr=random_ins.randint(10, 99))
+        return order_sn
+
+    def validate(self,attrs):
+        attrs['order_sn'] = self.generate_order_sn()
+        return attrs
+
+    class Meta:
+        model = OrderInfo
+        fields = '__all__'
+
+
