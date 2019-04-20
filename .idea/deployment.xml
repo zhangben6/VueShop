@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always">
+    <serverData>
+      <paths name="RapzhangShop">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/root/RapzhangShop/MxShop" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@120.78.170.188:22">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/root/RapzhangShop/MxShop" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>
