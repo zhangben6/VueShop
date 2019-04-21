@@ -28,7 +28,7 @@ SECRET_KEY = 'nv4vk5p!&czvmi%z@9!c6-5he3_&9ci*jk=w2#nc#h%@oz)vbr'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # 自定义的UserProfile models类继承auth自带的实体类
 AUTH_USER_MODEL = 'users.UserProfile'
@@ -98,7 +98,7 @@ WSGI_APPLICATION = 'MxShop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vue_shop',
+        'NAME': 'vueShop',
         'USER':'root',
         'PASSWORD':'123456',
         'HOST':'127.0.0.1',
@@ -181,11 +181,8 @@ REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
 # 云片网keyid
 APIKEY = '78745e43a93b9f9ccebd5e072dc542a7'
 
-CORS_ALLOW_METHODS =( 'GET',
-    'POST',
-    'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS'
-        )
 
+
+# 支付宝相关配置
+private_key_path = os.path.join(BASE_DIR,'apps/trade/keys/private_2048.txt')
+ali_pub_key_path = os.path.join(BASE_DIR,'apps/trade/keys/pub_2048.txt')

@@ -25,7 +25,7 @@ from goods.views import GoodsListViewSet,CategoryViewSet
 from users.views import SmsCodeViewSet,UserViewSet
 from MxShop.settings import MEDIA_ROOT
 from user_operation.views import UserFavViewset,LeavingMessageViewset,AddressViewSet
-from trade.views import shoppingCartViewset,OrderViewSet
+from trade.views import shoppingCartViewset,OrderViewSet,AlipayView
 
 router = DefaultRouter()
 
@@ -86,5 +86,8 @@ urlpatterns = [
 
     # drf中JWT的认证接口
     url(r'^login/', obtain_jwt_token),
+
+    # 处理支付宝支付的同步异步支付结果
+    url(r'^alipay/return/',AlipayView.as_view(),name='alipay')
 
 ]

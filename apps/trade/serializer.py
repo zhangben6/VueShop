@@ -9,6 +9,9 @@ from rest_framework import serializers
 from goods.models import Goods
 from goods.serializers import GoodsSerializer
 from .models import OrderInfo,OrderGoods,ShoppingCart
+from utils.alipay import AliPay
+from MxShop.settings import ali_pub_key_path,private_key_path
+
 
 class ShopCartDetailSerializer(serializers.ModelSerializer):
     goods = GoodsSerializer(many=False,read_only=True)
@@ -70,6 +73,28 @@ class OrderGoodsSerializer(serializers.ModelSerializer):
 
 class OrderDetailSerializer(serializers.ModelSerializer):
     goods = OrderGoodsSerializer(many=True)
+
+    # 获取支付页面的url
+    alipay_url = serializers.SerializerMethodField(read_only=True)
+
+    def get_alipay_url(self, obj):
+        # 此函数将生成支付宝支付页面的url
+        alipay = AliPay(
+            appid="2016093000631244",
+            app_notify_url="http://120.78.170.188:8001/alipay/return/",
+            app_private_key_path=private_key_path,
+            alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
+            debug=True,  # 默认False,
+            return_url="http://120.78.170.188:8001/"
+        )
+
+        url = alipay.direct_pay(
+            subject=obj.order_sn,  # 支付对象
+            out_trade_no=obj.order_sn,  # 订单号
+            total_amount=obj.order_mount,  # 总金额
+        )
+        re_url = "https://openapi.alipaydev.com/gateway.do?{data}".format(data=url)
+        return re_url
     class Meta:
         model = OrderInfo
         fields = '__all__'
@@ -88,6 +113,26 @@ class OrderSerializer(serializers.ModelSerializer):
     nonce_str = serializers.CharField(read_only=True)
     pay_type = serializers.CharField(read_only=True)
     add_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M')
+    alipay_url = serializers.SerializerMethodField(read_only=True)
+
+    def get_alipay_url(self,obj):
+        # 此函数将生成支付宝支付页面的url
+        alipay = AliPay(
+            appid="2016093000631244",
+            app_notify_url="http://120.78.170.188:8001/alipay/return/",
+            app_private_key_path=private_key_path,
+            alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
+            debug=True,  # 默认False,
+            return_url="http://120.78.170.188:8001/"
+        )
+
+        url = alipay.direct_pay(
+            subject=obj.order_sn,   # 支付对象
+            out_trade_no=obj.order_sn,  # 订单号
+            total_amount=obj.order_mount, # 总金额
+        )
+        re_url = "https://openapi.alipaydev.com/gateway.do?{data}".format(data=url)
+        return re_url
 
     # 因为前端序列化的serializer没有订单号，需要在实例化对象save之前插入一段订单号
     def generate_order_sn(self):
