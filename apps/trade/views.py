@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import SessionAuthentication
 from rest_framework import mixins
+from django.shortcuts import redirect
 import time
 
 from utils.permissions import IsOwnerOrReadOnly
@@ -111,7 +112,7 @@ class AlipayView(APIView):
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             debug=True,  # 默认False,
-            return_url="http://120.78.170.188:8001/"
+            return_url="http://120.78.170.188:8001/alipay/return/"
         )
 
         # 进行回调参数的验证
@@ -131,7 +132,14 @@ class AlipayView(APIView):
                 existed_order.save()
 
             # 支付宝会异步的给我们发送支付成功消息，需要回复success字符串
-            return Response('success')
+            response = redirect('index')
+            response.set_cookie('nextPath','pay',max_age=3)  # 前端vue项目会识别到这些值做出相应操作
+            return response
+        else:
+            # 支付信息被篡改的情况下，直接跳转到首页
+            response = redirect('index')
+            return response
+
 
     def post(self,request):
         '''
@@ -153,7 +161,7 @@ class AlipayView(APIView):
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             debug=True,  # 默认False,
-            return_url="http://120.78.170.188:8001/"
+            return_url="http://120.78.170.188:8001/alipay/return/"
         )
 
         # 进行回调参数的验证
@@ -174,6 +182,11 @@ class AlipayView(APIView):
 
             # 支付宝会异步的给我们发送支付成功消息，需要回复success字符串
             return Response('success')
+
+        else:
+            # 支付信息被篡改的情况下，直接跳转到首页
+            response = redirect('index')
+            return response
 
 
 

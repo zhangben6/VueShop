@@ -20,6 +20,7 @@ import xadmin
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
+from django.views.generic import TemplateView
 
 from goods.views import GoodsListViewSet,CategoryViewSet
 from users.views import SmsCodeViewSet,UserViewSet
@@ -65,6 +66,9 @@ router.register(r'orders',OrderViewSet,base_name='orders')
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
+
+    # Vue前端项目生成的静态文件和html访问路径
+    url(r'^index/',TemplateView.as_view(template_name='index.html'),name='index'),
 
     # 富文本编辑
     url(r'ueditor/',include('DjangoUeditor.urls')),

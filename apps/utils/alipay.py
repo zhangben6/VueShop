@@ -125,11 +125,11 @@ class AliPay(object):
 
 
 if __name__ == "__main__":
-    # return_url = 'http://120.78.170.188:8001/?charset=utf-8&out_trade_no=201702021224&method=alipay.trade.page.pay.return&total_amount=100.00&sign=CLKdkP3TpKZ%2BIYENfigF%2FLrZfP2Ec6%2Bnq56wZfOnnDrigjm2Y4J7hg1GPRYHDpxKjJonapSH4GRxRjgcrALYE730u3J7Nql1NpPXy8lNV%2Ff%2BzkcduqbRd9H5QyWyiH6gur2nSa%2FhPFFJUOzMQnQHHCez02YLOE6wKjmOXTN1%2Be3ef3DbD6wsMMsKBQyWQXDu70ZMq0xN%2FL9EKzfLOwuRUUK08sEQ2BLOs5kR3ZKctukRmKNBdqrFCVTSizzuaDG4iLYAd20gB8%2BB2zjdtmZtYcvjqynu5lx0OkB1QcYsBogZ7CKiLfiijppfYoOHugc9aML%2F%2Ftp4uSvEhMPA%2Flxa2A%3D%3D&trade_no=2019042122001487851000003429&auth_app_id=2016093000631244&version=1.0&app_id=2016093000631244&sign_type=RSA2&seller_id=2088102177946957&timestamp=2019-04-21+11%3A36%3A32/'
-    # o = urlparse(return_url)
-    # query = parse_qs(o.query)
-    # processed_query = {}
-    # ali_sign = query.pop("sign")[0]
+    return_url = 'http://120.78.170.188:8001/?charset=utf-8&out_trade_no=201904211836&method=alipay.trade.page.pay.return&total_amount=1.00&sign=HKafoOXN2DIvfcAkosXGKUSIij5rzYBl4Pxx4%2BnmlHo%2FN8jvxCfERxkr5dLLPmpFLgHfiqgdVFDisFla%2FEOvGU6C2d1nRxBoA29Yz2Cu10rd1Hu4nbw%2FlajmWHlm%2FyxNPUH19kHP59ihGhZAwvfBVzQtYDjxtbwZHLL%2BVeORvlJqZJKzNDacK0ucPMoPsxkeO1enYSGo7J52aosD431Pzz3pew0g%2FRjpIWpCSiSwPuO21Ohw65OJQ%2Fsk56JLVWrS%2BbapODeriMXB1EOS0YbcX8nC%2FGwrsxGjJ4EqecqOBXEzFKv9RowmZRXUkiHEcdqTw6D%2Fp2NVeuDr1OlTgVObdg%3D%3D&trade_no=2019042122001487851000007156&auth_app_id=2016093000631244&version=1.0&app_id=2016093000631244&sign_type=RSA2&seller_id=2088102177946957&timestamp=2019-04-21+18%3A37%3A56'
+    o = urlparse(return_url)
+    query = parse_qs(o.query)
+    processed_query = {}
+    ali_sign = query.pop("sign")[0]
 
 
     alipay = AliPay(
@@ -141,14 +141,15 @@ if __name__ == "__main__":
         return_url="http://120.78.170.188:8001/"
     )
 
-    # for key, value in query.items():
-    #     processed_query[key] = value[0]
-    # print(alipay.verify(processed_query, ali_sign))
+    for key, value in query.items():
+        processed_query[key] = value[0]
+    print(alipay.verify(processed_query, ali_sign))
 
-    url = alipay.direct_pay(
-        subject="午餐二楼盖浇饭",
-        out_trade_no="201904211457",
-        total_amount=2
-    )
-    re_url = "https://openapi.alipaydev.com/gateway.do?{data}".format(data=url)
-    print(re_url)
+    # url = alipay.direct_pay(
+    #     subject="测试数据",
+    #     out_trade_no="201904211836",
+    #     total_amount=1,
+    #     return_url="http://120.78.170.188:8001/"
+    # )
+    # re_url = "https://openapi.alipaydev.com/gateway.do?{data}".format(data=url)
+    # print(re_url)

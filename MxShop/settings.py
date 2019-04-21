@@ -150,7 +150,7 @@ AUTHENTICATION_BACKENDS = (
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
 
 # 上传资源文件的配置
 MEDIA_URL = '/media/'
@@ -185,4 +185,4 @@ APIKEY = '78745e43a93b9f9ccebd5e072dc542a7'
 
 # 支付宝相关配置
 private_key_path = os.path.join(BASE_DIR,'apps/trade/keys/private_2048.txt')
-ali_pub_key_path = os.path.join(BASE_DIR,'apps/trade/keys/pub_2048.txt')
+ali_pub_key_path = os.path.join(BASE_DIR,'apps/trade/keys/alipay_key_2048.txt')

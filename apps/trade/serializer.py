@@ -85,7 +85,7 @@ class OrderDetailSerializer(serializers.ModelSerializer):
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             debug=True,  # 默认False,
-            return_url="http://120.78.170.188:8001/"
+            return_url="http://120.78.170.188:8001/alipay/return/"
         )
 
         url = alipay.direct_pay(
@@ -123,7 +123,7 @@ class OrderSerializer(serializers.ModelSerializer):
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             debug=True,  # 默认False,
-            return_url="http://120.78.170.188:8001/"
+            return_url="http://120.78.170.188:8001/alipay/return/"
         )
 
         url = alipay.direct_pay(
