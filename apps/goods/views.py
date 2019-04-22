@@ -9,9 +9,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.authentication import TokenAuthentication
 
-from .models import Goods,GoodsCategory
+from .models import Goods,GoodsCategory,Banner,HotSearchWords
 from .filters import GoodsFilter
-from .serializers import GoodsSerializer,CategorySerializer
+from .serializers import GoodsSerializer,CategorySerializer,BannerSerializer,HotWordsSerializer
+from .serializers import IndexCategorySerializer
 
 # Create your views here.
 
@@ -112,6 +113,7 @@ class GoodsPagination(PageNumberPagination):
 #     search_fields = ('^name','=goods_brief')  # 也可以嵌套加入正则表达式的语法
 
 # drf 的排序 ----------------------------------------------------------------------------------------------------
+# 项目实战环节 =========================================================================
 class GoodsListViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     '''
     1.使用drf框架7行完成：商品列表页展示，分页，过滤，搜索，排序（前端呈现web可视化API界面）
@@ -127,7 +129,7 @@ class GoodsListViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.
     search_fields = ('name','goods_brief','goods_desc')
     ordering_fields = ('sold_num', 'shop_price')
 
-# 项目实战环节 =========================================================================
+
 class CategoryViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     '''
     list:
@@ -137,8 +139,20 @@ class CategoryViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.G
     serializer_class = CategorySerializer
 
 
+class HotSearchViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
+    queryset = HotSearchWords.objects.all().order_by("-index")
+    serializer_class =HotWordsSerializer
 
 
+class BannerViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
+    '''获取轮播图列表'''
+
+    queryset = Banner.objects.all().order_by('index')
+    serializer_class = BannerSerializer
 
 
+class IndexCategoryViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
+    '''首页商品分类数据'''
+    queryset = GoodsCategory.objects.filter(is_tab=True)
+    serializer_class = IndexCategorySerializer
 

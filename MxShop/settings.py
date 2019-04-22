@@ -98,7 +98,7 @@ WSGI_APPLICATION = 'MxShop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vueShop',
+        'NAME': 'vue_shop',
         'USER':'root',
         'PASSWORD':'123456',
         'HOST':'127.0.0.1',

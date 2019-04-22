@@ -122,7 +122,7 @@ class AlipayView(APIView):
         if verify_re is True:
             order_sn = processed_dict.get('out_trade_no', None)
             trade_no = processed_dict.get('trade_no', None)
-            trade_status = processed_dict.get('trade_status', None)
+            trade_status = processed_dict.get('trade_status', "TRADE_SUCCESS")
 
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
             for existed_order in existed_orders:
@@ -133,7 +133,7 @@ class AlipayView(APIView):
 
             # 支付宝会异步的给我们发送支付成功消息，需要回复success字符串
             response = redirect('index')
-            response.set_cookie('nextPath','pay',max_age=3)  # 前端vue项目会识别到这些值做出相应操作
+            response.set_cookie('nextPath','pay1',max_age=10)  # 前端vue项目会识别到这些值做出相应操作
             return response
         else:
             # 支付信息被篡改的情况下，直接跳转到首页
@@ -171,7 +171,7 @@ class AlipayView(APIView):
         if verify_re is True:
             order_sn = processed_dict.get('out_trade_no', None)
             trade_no = processed_dict.get('trade_no', None)
-            trade_status = processed_dict.get('trade_status', None)
+            trade_status = processed_dict.get('trade_status',"TRADE_SUCCESS")
 
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
             for existed_order in existed_orders:

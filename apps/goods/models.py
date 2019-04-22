@@ -83,6 +83,7 @@ class Goods(models.Model):
     def __str__(self):
         return self.name
 
+
 class GoodsImage(models.Model):
     """
     商品轮播图
@@ -97,6 +98,7 @@ class GoodsImage(models.Model):
 
     def __str__(self):
         return self.goods.name
+
 
 class Banner(models.Model):
     """
@@ -114,9 +116,10 @@ class Banner(models.Model):
     def __str__(self):
         return self.goods.name
 
+
 class IndexAd(models.Model):
     """
-    商品广告
+    首页商品系列旁边的广告图goods
     """
     category = models.ForeignKey(GoodsCategory, on_delete=models.CASCADE, related_name='category',
                                  verbose_name="商品类目")

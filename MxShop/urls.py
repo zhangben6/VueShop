@@ -22,11 +22,13 @@ from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
 from django.views.generic import TemplateView
 
-from goods.views import GoodsListViewSet,CategoryViewSet
+from goods.views import GoodsListViewSet,CategoryViewSet,HotSearchViewSet,BannerViewSet
 from users.views import SmsCodeViewSet,UserViewSet
 from MxShop.settings import MEDIA_ROOT
 from user_operation.views import UserFavViewset,LeavingMessageViewset,AddressViewSet
 from trade.views import shoppingCartViewset,OrderViewSet,AlipayView
+from goods.views import IndexCategoryViewSet
+
 
 router = DefaultRouter()
 
@@ -56,6 +58,16 @@ router.register(r'shopcarts',shoppingCartViewset,base_name='shopcarts')
 
 # 创建订单的接口
 router.register(r'orders',OrderViewSet,base_name='orders')
+
+# 热搜词的接口
+router.register(r'hotsearchs',HotSearchViewSet,base_name='hotsearchs')
+
+# 首页轮播图的接口
+router.register(r'banners',BannerViewSet,base_name='banners')
+
+# 首页商品系列数据接口
+router.register(r'indexgoods',IndexCategoryViewSet,base_name='indexgoods')
+
 
 
 # goods_list = GoodsListViewSet.as_view({
