@@ -164,7 +164,15 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',  # 提示出错，没有调用process_request方法
         # 'rest_framework.authentication.TokenAuthentication',
         # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # JWT的auth认证，将用户post过来的token做验证，取出user，不用查询数据库
-    )
+    ),
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '15/minute',
+        'user': '15/minute'
+    }
 }
 
 
@@ -186,3 +194,19 @@ APIKEY = '78745e43a93b9f9ccebd5e072dc542a7'
 # 支付宝相关配置
 private_key_path = os.path.join(BASE_DIR,'apps/trade/keys/private_2048.txt')
 ali_pub_key_path = os.path.join(BASE_DIR,'apps/trade/keys/alipay_key_2048.txt')
+
+# drf extension的缓存时间
+REST_FRAMEWORK_EXTENSIONS = {
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT':5 * 60
+}
+
+# 配置django_redis缓存机制(前提必须是本机的redis服务启动）
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
