@@ -37,6 +37,14 @@ class UserFavViewset(mixins.CreateModelMixin,mixins.ListModelMixin,mixins.Retrie
             return UserFavSerializer
         return UserFavSerializer  # 默认返回
 
+    # 这里用django的信号量来完善收藏功能
+    # def perform_create(self, serializer):
+    #     # 根据外键找到对应的商品对象
+    #     instance = serializer.save()
+    #     goods = instance.goods
+    #     goods.fav_num += 1
+    #     goods.save()
+
 class LeavingMessageViewset(mixins.ListModelMixin,mixins.DestroyModelMixin,mixins.CreateModelMixin,viewsets.GenericViewSet):
     '''
     list:
