@@ -44,7 +44,31 @@ class shoppingCartViewset(viewsets.ModelViewSet):
         '''
         return ShoppingCart.objects.filter(user=self.request.user)
 
+    # 加入购物车 减少库存量
+    def perform_create(self, serializer):
+        shop_cart = serializer.save()
+        goods = shop_cart.goods
+        goods.goods_num -= shop_cart.nums
+        goods.save()
 
+    # 删除购物车记录时，库存数增加
+    def perform_destroy(self, instance):
+        goods = instance.goods
+        goods.goods_num += instance.nums
+        goods.save()
+        instance.delete()
+
+    # 在提交订单之前，修改购物车中的商品数量，库存改变
+    def perform_update(self, serializer):
+        # 首先要获取到现有的库存量是多少
+        existed_record = ShoppingCart.objects.get(id=serializer.instance.id)
+        existed_nums = existed_record.nums
+        saved_record = serializer.save()
+        # 保存后的商品库存数量- 保存前的数量
+        nums = saved_record.nums - existed_nums
+        goods = saved_record.goods
+        goods.goods_num -= nums
+        goods.save()
 
 class OrderViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,mixins.CreateModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
     '''
@@ -175,12 +199,20 @@ class AlipayView(APIView):
 
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
             for existed_order in existed_orders:
+                # 修改订单的状态
                 existed_order.pay_status = trade_status
                 existed_order.trade_no = trade_no
                 existed_order.pay_time = datetime.now()
                 existed_order.save()
 
-            # 支付宝会异步的给我们发送支付成功消息，需要回复success字符串
+                # 修改订单对应的order_goods中的销量
+                order_goods = existed_order.goods.all()
+                for order_good in order_goods:
+                    goods = order_good.goods
+                    goods.sold_num += order_good.goods_num
+                    goods.save()
+
+            # 支付宝会异步的给我们发送支付成功消息，需要回复success字符串,支付宝就不会一直发送回调参数了
             return Response('success')
 
         else:
