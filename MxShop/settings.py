@@ -196,9 +196,9 @@ private_key_path = os.path.join(BASE_DIR,'apps/trade/keys/private_2048.txt')
 ali_pub_key_path = os.path.join(BASE_DIR,'apps/trade/keys/alipay_key_2048.txt')
 
 # drf extension的缓存时间
-REST_FRAMEWORK_EXTENSIONS = {
-    'DEFAULT_CACHE_RESPONSE_TIMEOUT':5 * 60
-}
+# REST_FRAMEWORK_EXTENSIONS = {
+#     'DEFAULT_CACHE_RESPONSE_TIMEOUT':5 * 60
+# }
 
 # 配置django_redis缓存机制(前提必须是本机的redis服务启动）
 # CACHES = {

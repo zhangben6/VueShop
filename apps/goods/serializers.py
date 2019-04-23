@@ -4,6 +4,7 @@ __data__ = '2019/4/12 17:43'
 
 # serializer.py文件的作用相对于django中的Form，将form表单实例化成html代码，
 # 而serializer是将models对象转换成json序列化对象
+import re
 
 from rest_framework import serializers
 from django.db.models import Q
@@ -61,6 +62,27 @@ class GoodsImageSerializer(serializers.ModelSerializer):
 class GoodsSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     images = GoodsImageSerializer(many=True)
+    goods_desc = serializers.SerializerMethodField()
+    def get_goods_desc(self,obj):
+        goods_desc1 = obj.goods_desc
+
+        # 先用正则表达式取出需要修改地址的图片节点
+        p = re.compile('<p><img src="(.*?)" title', re.S)
+        rList = p.findall(goods_desc1)
+
+        # 定义一个新列表，把修改过的地址图片全部加入其中
+        rList1 = []
+        for str1 in rList:
+            str1 = 'http://127.0.0.1:8000' + str1
+            rList1.append(str1)
+
+        # 重新拼接good_desc字符串，用于返回给前端
+        goods_desc1 = ''
+        for image in rList1:
+            str2 = '<p><img src="{image1}"/> '.format(image1=image)
+            goods_desc1 = goods_desc1 + str2
+        return goods_desc1
+
     class Meta:
         model = Goods
         # fields = ('name','click_num','market_price','add_time')
@@ -90,6 +112,7 @@ class GoodSerializer1(serializers.ModelSerializer):
     class Meta:
         model = Goods
         fields = ['id','images']
+
 
 class IndexCategorySerializer(serializers.ModelSerializer):
     # 取出与商品关联的brand图

@@ -120,7 +120,7 @@ class GoodsPagination(PageNumberPagination):
 # 项目实战环节 =========================================================================
 class GoodsListViewSet(CacheResponseMixin,mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     '''
-    1.使用drf框架7行完成：商品列表页展示，分页，过滤，搜索，排序（前端呈现web可视化API界面）
+    1.使用drf框架7行完成：商品列表页展示，分页，过滤，搜索，排序（浏览器呈现web可视化API界面）
     2.后端人员不需要写太多文档表明接口对应的参数，直接通过页面中的过滤器测试得到API地址
     '''
     # 设置不同用户的访问次数限制

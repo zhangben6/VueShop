@@ -56,7 +56,7 @@ class Goods(models.Model):
     商品
     '''
     category = models.ForeignKey(GoodsCategory, on_delete=models.CASCADE, verbose_name="商品类目",null=True,blank=True)
-    goods_sn = models.CharField("商品唯一货号", max_length=50, default="")
+    goods_sn = models.CharField("商品唯一货号", max_length=50, default="666666")
     name = models.CharField("商品名", max_length=100, default='')
     click_num = models.IntegerField("点击数", default=0)
     sold_num = models.IntegerField("商品销售量", default=0)
@@ -65,7 +65,7 @@ class Goods(models.Model):
     market_price = models.FloatField("市场价格", default=0)
     shop_price = models.FloatField("本店价格", default=0)
     goods_brief = models.TextField("商品简短描述", max_length=500,default='')
-    goods_desc = UEditorField(verbose_name=u"内容", imagePath="goods/images/", width=1200, height=300,
+    goods_desc = UEditorField(verbose_name=u"内容", imagePath="goods/desc/", width=1200, height=300,
                               filePath="goods/files/", default='')
     ship_free = models.BooleanField("是否承担运费", default=True)
     # 首页中展示的商品封面图
@@ -89,7 +89,7 @@ class GoodsImage(models.Model):
     商品轮播图
     """
     goods = models.ForeignKey(Goods,null=True,blank=True,on_delete=models.SET_NULL, verbose_name="商品", related_name="images")
-    image = models.ImageField(upload_to="", verbose_name="图片", null=True, blank=True)
+    image = models.ImageField(upload_to="goods/other/", verbose_name="图片", null=True, blank=True)
     add_time = models.DateTimeField("添加时间", default=datetime.now)
 
     class Meta:
