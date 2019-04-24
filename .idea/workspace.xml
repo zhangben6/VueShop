@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5e0957a7-4750-427c-a6c7-96b60d35fe07" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MxShop/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MxShop/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MxShop/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MxShop/urls.py" afterDir="false" />
-    </list>
+    <list default="true" id="5e0957a7-4750-427c-a6c7-96b60d35fe07" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -401,12 +397,12 @@
       <workItem from="1555986944872" duration="11715000" />
       <workItem from="1556012944622" duration="3563000" />
       <workItem from="1556030946056" duration="3516000" />
-      <workItem from="1556103359179" duration="10810000" />
+      <workItem from="1556103359179" duration="11240000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="238390000" />
+    <option name="totallyTimeSpent" value="238820000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -420,12 +416,12 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.23396675" visible="true" weight="0.16400427" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.23396675" visible="true" weight="0.16400427" />
       <window_info id="Structure" order="1" sideWeight="0.76603323" side_tool="true" weight="0.16400427" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32937366" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.35421166" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.35421166" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.09071274" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
