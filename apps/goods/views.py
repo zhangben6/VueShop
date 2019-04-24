@@ -47,7 +47,7 @@ from .serializers import IndexCategorySerializer
 #
 #
 class GoodsPagination(PageNumberPagination):
-    page_size = 12
+    page_size = 16
     page_size_query_param = 'page_size'  # 前端可通过这个参数进行动态返回数据
     page_query_param = 'page'
     max_page_size = 100
