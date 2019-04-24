@@ -162,7 +162,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',  # 提示出错，没有调用process_request方法
-        # 'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
         # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # JWT的auth认证，将用户post过来的token做验证，取出user，不用查询数据库
     ),
     'DEFAULT_THROTTLE_CLASSES': (
